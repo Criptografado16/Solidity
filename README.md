@@ -61,3 +61,85 @@ contract MyToken is ERC20 {
     }
 }
 
+
+Explicação do Código:
+Licença e Versão do Compilador:
+
+solidity
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+Define a licença do código como MIT e especifica que o código deve ser compilado com a versão 0.8.0 ou superior do Solidity.
+
+Importação do ERC20:
+
+solidity
+
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+Importa o contrato ERC20 da biblioteca OpenZeppelin, que fornece uma implementação padrão do token ERC20.
+
+Definição do Contrato:
+
+solidity
+Copiar código
+contract MyToken is ERC20 {
+    constructor(string memory name, string memory symbol, uint256 initialSupply) ERC20(name, symbol) {
+        _mint(msg.sender, initialSupply * (10 ** uint256(decimals())));
+    }
+
+    function mint(address to, uint256 amount) public {
+        _mint(to, amount);
+    }
+
+    function burn(uint256 amount) public {
+        _burn(msg.sender, amount);
+    }
+}
+
+Contrato MyToken:
+MyToken herda do contrato ERC20 da OpenZeppelin.
+O construtor (constructor) inicializa o token com um nome, símbolo e fornecimento inicial. Ele também minta o fornecimento inicial de tokens para o endereço que implanta o contrato (msg.sender).
+A função mint permite a criação de novos tokens e a função burn permite a destruição de tokens do próprio saldo do chamador.
+Passos para Implantar o Contrato:
+Instale a Truffle:
+
+bash
+
+npm install -g truffle
+Crie um Novo Projeto Truffle:
+
+bash
+
+truffle init
+Instale a OpenZeppelin:
+
+bash
+
+npm install @openzeppelin/contracts
+Adicione o Contrato ao Projeto:
+Crie um arquivo chamado MyToken.sol na pasta contracts e cole o código acima.
+
+Compile e Implante o Contrato:
+Configure a rede no arquivo truffle-config.js e escreva um script de migração na pasta migrations.
+
+Arquivo de Migração (2_deploy_contracts.js):
+
+javascript
+
+const MyToken = artifacts.require("MyToken");
+
+module.exports = function (deployer) {
+  deployer.deploy(MyToken, "MyToken", "MTK", 1000000);
+};
+Comando de Implantação:
+
+bash
+
+truffle migrate
+Este exemplo cria um token ERC20 com funções básicas de mint e burn, utilizando a biblioteca OpenZeppelin para segurança e facilidade de uso.
+
+
+
+
+
+
